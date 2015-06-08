@@ -8,6 +8,7 @@ var main = function() {
     firstVideo.addClass('active-video');
     firstVideo.slideDown('slow');
 
+
     // highlight up arrow
     $('.up').hover(function() {
         $(this).addClass('iconcolor');
@@ -23,29 +24,20 @@ var main = function() {
     });
 
     // handle the clicks
-    $('.up').click(function() {
-        upClick();
-        
-
-    });
-    $('.down').click(function() {
-        downClick();
-        
-
-    });
+    $('.up').click(upClick);
+    $('.down').click(downClick);
+    $('#msgButton').click(newMessage);
+    $('.comments').click(viewMessages);
 
 };
 
 var upClick = function() {
     var up = $('.active-video .up').text();
     var id = $('.active-video iframe').text();
-    var total = $('.active-video .total').text();
 
-    total++;
     up++;
 
     $('.active-video .up').text(up);
-    $('.active-video .total').text(total);
 
     var data = new Object();
     data.voteType = 'up';
@@ -71,11 +63,9 @@ var downClick = function() {
     var id = $('.active-video iframe').text();
     var total = $('.active-video .total').text();
 
-    total--;
-    down--;
+    down++;
 
     $('.active-video .down').text(down);
-    $('.active-video .total').text(total);
 
     var data = new Object();
     data.voteType = 'down';
@@ -111,8 +101,67 @@ var nextVideo = function() {
         console.log(nextSlide.length);
     }
     
-    currentSlide.fadeOut(600).removeClass('active-video');
-    nextSlide.fadeIn(600).addClass('active-video');
+    currentSlide.fadeOut(600, function() {
+        nextSlide.fadeIn(600).addClass('active-video');        
+    }).removeClass('active-video');
+
+    resetMessages();
+};
+
+var newMessage = function() {
+    // message function
+    var msg = $('#msg').val();
+    var id = $('.active-video iframe').text();
+
+    if (msg.length > 0 && msg.length <=140) {
+
+        //prepare data/options for newmessage ajax
+        var data = new Object();
+        data.msg = msg;
+        data.link_id = id;
+
+        var options = new Object();
+        options.data = data;
+        options.dataType = 'text';
+        options.type = 'get';
+        options.success = function(response) {
+            // what to do next
+            if(response === 'worked') {
+                $('<h4>'+msg+'</h4><hr>').appendTo('.oldMessages');
+                $('#msg').val('');
+            } else {
+                alert(response);
+            }
+        };
+        options.url = 'comment.php';
+
+        // run the ajax for a new comment
+        $.ajax(options);
+    }
+};
+
+var viewMessages = function() {
+    // open the messages pertaining to current video
+    $('.msg-box').fadeToggle();
+};
+
+var resetMessages = function() {
+    $('.msg-box').fadeOut(300, function() {
+        $('.oldMessages').empty();
+    });
+};
+
+var getComments = function() {
+    //function called when page loads to get all comments
+    var options = new Object();
+    options.dataType = 'json';
+    options.success = function(response) {
+        console.log(JSON.parse(response));
+    };
+
+    options.url = "comment.php";
+
+    $.ajax(options);
 };
 
 $(document).ready(main);
