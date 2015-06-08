@@ -45,6 +45,7 @@ p {
     display: none;
     position: absolute;
     margin: 15px;
+    width: 100%;
 }
 
 .active-video {

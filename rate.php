@@ -18,7 +18,9 @@ while($stmt->fetch()) {
 }
 
 if(isset($play_list)) {
-    echo '<div class="container">'; 
+    echo '
+    <div class="container-fluid">
+        <div class="col-md-6">'; 
     foreach ($play_list as $p) {
         echo '<div class="video">
                     <div class="embed-responsive embed-responsive-16by9">
@@ -30,7 +32,9 @@ if(isset($play_list)) {
                     </div>
               </div>';
     }
-    echo '</div>';
+    echo '
+        </div>
+    </div>';
 }
 
 

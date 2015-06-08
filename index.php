@@ -4,7 +4,7 @@ $custom_js = "includes/js/music.js";
 
 include('includes/header.html');
  ?>
-<div class="container">
+<div class="container-fluid">
     <div class="search">
         <h1 id="title">Summer Jams</h1>
         <div class="search-content">
