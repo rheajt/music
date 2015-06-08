@@ -18,20 +18,19 @@ while($stmt->fetch()) {
 }
 
 if(isset($play_list)) {
-    
+    echo '<div class="container">'; 
     foreach ($play_list as $p) {
         echo '<div class="video">
-                <div class="player">
                     <div class="embed-responsive embed-responsive-16by9">
                         <iframe class="embed-responsive-item" id="vidPlaying" src="//www.youtube.com/embed/'.$p['url'].'">'.$p['id'].'</iframe>
                     </div>
                     <span class="arrows"><span class="fa fa-arrow-up fa-4x up">'.$p['up'].'</span><span class="fa fa-arrow-down fa-4x down">'.$p['down'].'</span></span>
-                </div>
                     <div class="votes">
                         <h1>Score: <span class="total">'.$p['total'].'</span></h1>
                     </div>
-                </div>';
+              </div>';
     }
+    echo '</div>';
 }
 
 

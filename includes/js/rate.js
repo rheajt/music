@@ -24,19 +24,16 @@ var main = function() {
 
     // handle the clicks
     $('.up').click(function() {
-        nextVideo();
-
         upClick();
+        
+
     });
     $('.down').click(function() {
-        nextVideo();
-
         downClick();
+        
+
     });
 
-    $('.total').click(function() {
-        $('.player').toggleFade();
-    })
 };
 
 var upClick = function() {
@@ -61,9 +58,7 @@ var upClick = function() {
     options.success = function(response) {
         // what to do next
         if(response === 'worked') {
-
-        } else {
-
+            nextVideo();
         }
     };
 
@@ -93,9 +88,7 @@ var downClick = function() {
     options.success = function(response) {
         // what to do next
         if(response === 'worked') {
-            $('#videoPlaying').stopVideo();
-        } else {
-
+            nextVideo();
         }
     };
 
@@ -108,14 +101,14 @@ var nextVideo = function() {
     var currentSlide = $('.active-video');
     var nextSlide = currentSlide.next();
 
-
     // stop the video from playing if it is playing
     video = $('.active-video #vidPlaying').attr('src');
     $('.active-video #vidPlaying').attr("src","");
     $('.active-video #vidPlaying').attr("src", video);
 
     if(nextSlide.length === 0) {
-      nextSlide = $('.video').first();
+        nextSlide = $('.video').first();
+        console.log(nextSlide.length);
     }
     
     currentSlide.fadeOut(600).removeClass('active-video');
