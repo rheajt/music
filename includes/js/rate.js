@@ -8,6 +8,7 @@ var main = function() {
     firstVideo.addClass('active-video');
     firstVideo.slideDown('slow');
 
+    getComments();
 
     // highlight up arrow
     $('.up').hover(function() {
@@ -27,7 +28,9 @@ var main = function() {
     $('.up').click(upClick);
     $('.down').click(downClick);
     $('#msgButton').click(newMessage);
-    $('.comments').click(viewMessages);
+    $('.comments').click(function() {
+        $('.msg-box').fadeToggle('slow');
+    });
 
 };
 
@@ -98,14 +101,13 @@ var nextVideo = function() {
 
     if(nextSlide.length === 0) {
         nextSlide = $('.video').first();
-        console.log(nextSlide.length);
     }
     
     currentSlide.fadeOut(600, function() {
         nextSlide.fadeIn(600).addClass('active-video');        
     }).removeClass('active-video');
 
-    resetMessages();
+    getComments();
 };
 
 var newMessage = function() {
@@ -140,28 +142,40 @@ var newMessage = function() {
     }
 };
 
-var viewMessages = function() {
-    // open the messages pertaining to current video
-    $('.msg-box').fadeToggle();
-};
-
-var resetMessages = function() {
-    $('.msg-box').fadeOut(300, function() {
-        $('.oldMessages').empty();
-    });
-};
-
 var getComments = function() {
-    //function called when page loads to get all comments
+
+    $('.oldMessages').empty();
+
+    var id = $('.active-video iframe').text();
+
+    var data = new Object();
+    data.id = id;
+
     var options = new Object();
+    options.data = data;
     options.dataType = 'json';
     options.success = function(response) {
-        console.log(JSON.parse(response));
+        if(response == 'fail') {
+            console.log('problem with php');
+        } else {
+            comments = response;
+
+            for(i=0; i < comments.length; i++) {
+                $('<h4>'+comments[i]+'</h4><hr>').appendTo('.oldMessages');
+            }
+            
+            console.log('worked');
+            
+        }
     };
+    options.error = function(response) {
+        console.log(response);
+    }
 
     options.url = "comment.php";
 
     $.ajax(options);
+
 };
 
 $(document).ready(main);

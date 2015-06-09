@@ -17,15 +17,26 @@ if(isset($_GET['link_id'], $_GET['msg'])) {
     echo 'worked';
 } else {
 
-    $stmt = $mysqli->prepare("SELECT link_id, comment FROM comments");
-    $stmt->execute();
-    $stmt->bind_result($id, $com);
+    // you should put all ajax calls into the same ajax request. so call ajax from rate.js
+    // when the server calls vote.php
+    $id = (int) $_GET['id'];
 
-    while($stmt->fetch()) {
-        $comments[] = array('id'=>$id, 'comment'=>$com);
+    if($stmt = $mysqli->prepare("SELECT comment FROM comments WHERE link_id=?")) {
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->bind_result($com);
+
+        if($stmt->num_rows > 0) {
+            while($stmt->fetch()) {
+                $comments[] = $com;
+            }
+            echo json_encode($comments);
+        } else {
+            echo $id;
+        }
+    } else {
+        echo "failed to prepare";
     }
-
-    echo json_encode($comments);
 }
 
 

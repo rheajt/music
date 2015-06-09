@@ -80,12 +80,11 @@ hr {
     float: right;
 }
 
-div.link-well a {
-    border-radius: 25px;
-    color: white;
+a {
+    color: gray;
 }
 
-div.link-well a:hover {
-    background-color: gray;
+a:hover {
+    color: black;
 
 }

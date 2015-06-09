@@ -11,7 +11,8 @@ include('includes/header.html');
             <p id="welcome">Soon we will be on a boat, bidding our friends a fond farewell. It seems crazy that
             we don't have a playlist for them. We are going to need to carefully select tunes for such
             a momentous occaision. So, since it is election day anyways, here is a voting system. Just copy and
-            paste your youtube links into the search bar below.</p>
+            paste your youtube links into the search bar below. <a href="rate.php">You can skip right to the voting
+            if you so desire.</a></p>
             <br>
             <div class="error alert alert-danger">
                 <p>Something is wrong with your link.</p>
